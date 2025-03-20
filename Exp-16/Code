@@ -1,0 +1,39 @@
+# Import necessary libraries
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# Load iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define classification algorithms
+algorithms = {
+    "Logistic Regression": LogisticRegression(max_iter=1000),
+    "Decision Tree Classifier": DecisionTreeClassifier(),
+    "Random Forest Classifier": RandomForestClassifier(n_estimators=100),
+    "Support Vector Machine (SVM)": SVC(),
+    "K-Nearest Neighbors (KNN)": KNeighborsClassifier(n_neighbors=5)
+}
+
+# Train and evaluate each algorithm
+for name, algorithm in algorithms.items():
+    algorithm.fit(X_train, y_train)
+    y_pred = algorithm.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Algorithm: {name}")
+    print(f"Accuracy: {accuracy:.3f}")
+    print("Classification Report:")
+    print(classification_report(y_test, y_pred))
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, y_pred))
+    print("-" * 50)
